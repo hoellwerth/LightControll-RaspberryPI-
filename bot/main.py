@@ -1,9 +1,8 @@
-import os
-
 import nextcord
 from nextcord.ext import commands
+import os
 
-TOKEN = 'OTUxNTYyNTg2MDYxNjg4OTQy.YipRtw.MpyW2wU6xysWfBgdZNj7NCnFgwU'
+TOKEN = 'OTUxNTYyNTg2MDYxNjg4OTQy.YipRtw.yCuazgtUHp7u0kxZBLe1TC9WP1A'
 
 client = commands.Bot(intents=nextcord.Intents.all(), command_prefix='!')
 client.remove_command('help')
@@ -46,21 +45,7 @@ async def light1off(ctx):
 
 @client.command()
 async def restart(ctx):
-    if ctx.author.id != '634856429538508801':
-        embed = nextcord.Embed(
-            title='Keine Rechte!',
-            colour=0xd15d4b
-        )
-        # embed.set_footer(icon_url=ctx.author.)
-        await ctx.send(embed=embed)
-        return
-    embed = nextcord.Embed(
-        title='Neustart!',
-        colour=0x3ba55c
-    )
-    await ctx.send(embed=embed)
-
-    os.system('sudo reboot')
+    os.system('reboot')
 
 
 client.run(TOKEN)
