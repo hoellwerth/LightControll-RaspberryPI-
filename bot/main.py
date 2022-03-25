@@ -1,8 +1,10 @@
-import nextcord
-from nextcord.ext import commands
 import os
 
-TOKEN = 'OTUxNTYyNTg2MDYxNjg4OTQy.YipRtw.yCuazgtUHp7u0kxZBLe1TC9WP1A'
+import RPi.GPIO as GPIO
+import nextcord
+from nextcord.ext import commands
+
+TOKEN = ''
 
 client = commands.Bot(intents=nextcord.Intents.all(), command_prefix='!')
 client.remove_command('help')
@@ -24,24 +26,44 @@ async def ping(ctx):
 
 
 @client.command()
-async def light1on(ctx):
-    embed = nextcord.Embed(
-        title='Licht an!',
-        colour=0x3ba55c
-    )
-    await ctx.send(embed=embed)
-    os.system('python3 on.py')
+async def light(ctx, light_number=None, onoff=None):
+    GPIO.setmode(GPIO.BCM)
+    if light_number == '1':
+        pin = 17
+        if onoff == 'on':
+            embed = nextcord.Embed(
+                title=f'Licht {light_number} an!',
+                colour=0x3ba55c
+            )
+            await ctx.send(embed=embed)
 
+            GPIO.setup(pin, GPIO.OUT)
+            GPIO.output(pin, GPIO.HIGH)
+            print('Light 1 on')
+        elif onoff == 'off':
+            embed = nextcord.Embed(
+                title=f'Licht {light_number} aus!',
+                colour=0xd15d4b
+            )
+            await ctx.send(embed=embed)
 
-@client.command()
-async def light1off(ctx):
-    embed = nextcord.Embed(
-        title='Licht aus!',
-        colour=0xd15d4b
-    )
-    await ctx.send(embed=embed)
-    os.system('python3 off.py')
+            GPIO.setup(pin, GPIO.OUT)
+            GPIO.output(pin, GPIO.LOW)
+            print(f'Light {light_number} an!')
 
+        else:
+            embed = nextcord.Embed(
+                title='Error!',
+                colour=0xd15d4b,
+            )
+            await ctx.reply(embed=embed)
+
+    else:
+        embed = nextcord.Embed(
+            title='Error!',
+            colour=0xd15d4b,
+        )
+        await ctx.reply(embed=embed)
 
 @client.command()
 async def restart(ctx):
