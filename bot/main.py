@@ -2,7 +2,7 @@ import nextcord
 from nextcord.ext import commands
 import os
 
-TOKEN = 'OTUxNTYyNTg2MDYxNjg4OTQy.YipRtw.yCuazgtUHp7u0kxZBLe1TC9WP1A'
+TOKEN = '' # add your token here
 
 client = commands.Bot(intents=nextcord.Intents.all(), command_prefix='!')
 client.remove_command('help')
